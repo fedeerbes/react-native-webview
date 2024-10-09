@@ -115,6 +115,12 @@ public class RNCWebViewManager extends SimpleViewManager<RNCWebView>
     }
 
     @Override
+    @ReactProp(name = "disableNativePrompts")
+    public void setDisableNativePrompts(RNCWebView view, boolean value) {
+        mRNCWebViewManagerImpl.setDisableNativePrompts(view, value);
+    }
+
+    @Override
     @ReactProp(name = "cacheMode")
     public void setCacheMode(RNCWebView view, @Nullable String value) {
         mRNCWebViewManagerImpl.setCacheMode(view, value);

@@ -11,7 +11,7 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
-import type NativeWebViewComponent from './RNCWebViewNativeComponent'
+import type NativeWebViewComponent from './RNCWebViewNativeComponent';
 
 type WebViewCommands =
   | 'goForward'
@@ -240,9 +240,7 @@ export interface WebViewNativeConfig {
   /**
    * The native component used to render the WebView.
    */
-  component?:
-    | typeof NativeWebViewMacOS
-    | typeof NativeWebViewComponent;
+  component?: typeof NativeWebViewMacOS | typeof NativeWebViewComponent;
   /**
    * Set props directly on the native component WebView. Enables custom props which the
    * original WebView doesn't pass through.
@@ -281,6 +279,7 @@ export interface CommonNativeWebViewProps extends ViewProps {
   javaScriptCanOpenWindowsAutomatically?: boolean;
   mediaPlaybackRequiresUserAction?: boolean;
   webviewDebuggingEnabled?: boolean;
+  disableNativePrompts?: boolean;
   messagingEnabled: boolean;
   onScroll?: (event: WebViewScrollEvent) => void;
   onLoadingError: (event: WebViewErrorEvent) => void;
@@ -674,11 +673,12 @@ export interface IOSWebViewProps extends WebViewSharedProps {
    * `selectedText`: the text selected on the document
    * @platform ios
    */
-  onCustomMenuSelection?: (event: {nativeEvent: {
-    label: string;
-    key: string;
-    selectedText: string;
-  }
+  onCustomMenuSelection?: (event: {
+    nativeEvent: {
+      label: string;
+      key: string;
+      selectedText: string;
+    };
   }) => void;
 }
 
@@ -1089,7 +1089,7 @@ export interface WebViewSharedProps extends ViewProps {
   /**
    * Function that is invoked when the `WebView` scrolls.
    */
-   onScroll?: ComponentProps<typeof NativeWebViewComponent>['onScroll'];
+  onScroll?: ComponentProps<typeof NativeWebViewComponent>['onScroll'];
 
   /**
    * Function that is invoked when the `WebView` has finished loading.
@@ -1225,4 +1225,9 @@ export interface WebViewSharedProps extends ViewProps {
    * Enables WebView remote debugging using Chrome (Android) or Safari (iOS).
    */
   webviewDebuggingEnabled?: boolean;
+
+  /**
+   * Enables/Disables prompts like prompt(), alert(), confirm().
+   */
+  disableNativePrompts?: boolean;
 }

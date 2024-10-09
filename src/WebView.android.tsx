@@ -64,6 +64,7 @@ const WebViewComponent = forwardRef<{}, AndroidWebViewProps>(({
   source,
   nativeConfig,
   onShouldStartLoadWithRequest: onShouldStartLoadWithRequestProp,
+  disableNativePrompts = false,
   ...otherProps
 }, ref) => {
   const messagingModuleName = useRef<string>(`WebViewMessageHandler${uniqueRef += 1}`).current;
@@ -190,6 +191,7 @@ const WebViewComponent = forwardRef<{}, AndroidWebViewProps>(({
     // @ts-expect-error source is old arch
     source={sourceResolved}
     newSource={newSource}
+    disableNativePrompts={disableNativePrompts}
     style={webViewStyles}
     overScrollMode={overScrollMode}
     javaScriptEnabled={javaScriptEnabled}

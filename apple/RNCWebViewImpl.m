@@ -1048,6 +1048,11 @@ RCTAutoInsetsProtocol>
   completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 }
 
+- (void)setDisableNativePrompts:(BOOL)disableNativePrompts
+{
+  _disableNativePrompts = disableNativePrompts;
+}
+
 #pragma mark - WKNavigationDelegate methods
 
 /**
@@ -1055,6 +1060,10 @@ RCTAutoInsetsProtocol>
  */
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
 {
+  if (_disableNativePrompts) {
+    completionHandler();
+    return;
+  }
 #if !TARGET_OS_OSX
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
   [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -1074,6 +1083,10 @@ RCTAutoInsetsProtocol>
  * confirm
  */
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
+  if (_disableNativePrompts) {
+    completionHandler(NO);
+    return;
+  }
 #if !TARGET_OS_OSX
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
   [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -1099,6 +1112,10 @@ RCTAutoInsetsProtocol>
  * prompt
  */
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString *))completionHandler{
+  if (_disableNativePrompts) {
+    completionHandler(nil);
+    return;
+  }
 #if !TARGET_OS_OSX
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:prompt preferredStyle:UIAlertControllerStyleAlert];
   [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {

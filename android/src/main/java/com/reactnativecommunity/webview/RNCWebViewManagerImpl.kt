@@ -649,4 +649,7 @@ class RNCWebViewManagerImpl {
     fun setWebviewDebuggingEnabled(view: RNCWebView, enabled: Boolean) {
         RNCWebView.setWebContentsDebuggingEnabled(enabled)
     }
+    fun setDisableNativePrompts(view: RNCWebView, enabled: Boolean) {
+        view.settings.disableNativePrompts = enabled
+    }
 }

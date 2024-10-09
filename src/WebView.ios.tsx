@@ -81,6 +81,7 @@ const WebViewComponent = forwardRef<{}, IOSWebViewProps>(({
   incognito,
   decelerationRate: decelerationRateProp,
   onShouldStartLoadWithRequest: onShouldStartLoadWithRequestProp,
+  disableNativePrompts=false,
   ...otherProps
 }, ref) => {
   const webViewRef = useRef<React.ComponentRef<HostComponent<NativeProps>> | null>(null);
@@ -205,6 +206,7 @@ const WebViewComponent = forwardRef<{}, IOSWebViewProps>(({
       ref={webViewRef}
       // @ts-expect-error old arch only
       source={sourceResolved}
+      disableNativePrompts={disableNativePrompts}
       {...nativeConfig?.props}
     />
   );
